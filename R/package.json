@@ -1,0 +1,46 @@
+{
+  "name": "react-ts-wtmemp",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@types/chart.js": "^2.7.40",
+    "@types/jquery": "^3.3.22",
+    "@types/jss": "^9.5.7",
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-fa": "^4.1.5",
+    "@types/react-redux": "^6.0.9",
+    "@types/react-router-dom": "^4.3.1",
+    "bootstrap": "^3.3.4",
+    "chart.js": "^2.7.3",
+    "connected-react-router": "^4.5.0",
+    "indefinite-observable": "^1.0.1",
+    "jquery": "^3.3.1",
+    "jslint": "^0.12.0",
+    "moment": "^2.22.2",
+    "popper.js": "^1.14.4",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.0",
+    "react-chartjs-2": "^2.7.4",
+    "react-dom": "^16.6.0",
+    "react-fa": "^5.0.0",
+    "react-image": "^1.5.1",
+    "react-redux": "^5.1.0",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "rxjs": "^6.3.3",
+    "salad-ui": "^1.1.55",
+    "salad-ui.chart": "^1.1.55",
+    "typescript": "^3.1.6"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "react-scripts-ts": "latest"
+  }
+}
