@@ -6,6 +6,7 @@
     "@types/chart.js": "^2.7.40",
     "@types/jquery": "^3.3.22",
     "@types/jss": "^9.5.7",
+    "@types/node": "^10.12.21",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/react-fa": "^4.1.5",
