@@ -1,5 +1,5 @@
-import { UPDATE_DASHBOARD, DASHBOARD_FAILED_RESPONCE, Action } from '../actions/DashboardActions';
-import { IDashboardState } from '../containers/DashboardContainer';
+import { Action, DASHBOARD_FAILED_RESPONCE, UPDATE_DASHBOARD } from '../actions/DashboardActions';
+import { IDashboardState } from '../models/Dashboard';
 
 const initialState: IDashboardState = {
     dashboard: [],

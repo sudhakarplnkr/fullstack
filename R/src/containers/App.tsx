@@ -1,95 +1,68 @@
 import * as React from 'react';
-import Header from '../components/Header';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { onLogout } from '../actions/AppActions';
 import Footer from '../components/Footer';
-import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
-import Dashboard from './DashboardContainer';
+import Header from '../components/Header';
+import LinksComponent from '../components/LinkComponent';
 import { PrivateRoute } from '../components/PrivateRoute/PrivateRoute';
+import { IAppProps, Link } from '../models/App';
+import SessionManagement from '../utils/SessionManagement';
+import ConfigurationContainer from './ConfigurationContainer';
+import Dashboard from './DashboardContainer';
 import LoginContainer from './LoginContainer';
-import LogOutContainer from './LogOutContainer';
-import ProjectBatchComponent from '../components/ProjectBatchComponent';
+import LogoutContainer from './LogoutContainer';
+import ReportContainer from './ReportContainer';
 
-const AssociateDetail = () => <h2>Associate Detail</h2>;
-const KtDetail = () => <h2>Kt Detail</h2>;
-interface IAppState {
-    isAuthenticated: boolean;
-}
-
-interface Link {
-    name: string;
-    to: string;
-}
-
-export class App extends React.Component<{}, IAppState> {
-    public constructor(props: any) {
-        super(props);
-        this.state = {
-            isAuthenticated: false
-        };
-    }
-
-    public componentDidMount() {
-        this.setState({ isAuthenticated: sessionStorage.getItem('AssociateId') ? true : false });
-    }
-
-    private onAuthenticated = () => {
-        this.setState({ isAuthenticated: true });
-    }
-
-    private onLogOut = () => {
-        this.setState({ isAuthenticated: false });
-    }
-
+class AppComponent extends React.Component<IAppProps, {}> {
     public render() {
         const menuLinks: Link[] = [
-            { name: 'Project Batch', to: '/project-batch' },
-            { name: 'Associate Detail', to: '/associate-detail' },
-            { name: 'Kt Detail', to: '/kt-detail' },
-            { name: 'Logout', to: '/logout' }
+            { name: 'Dashboard', to: '/', isAdmin: true },
+            { name: 'Report', to: '/report', isAdmin: true },
+            { name: 'Configuration', to: '/configuration', isAdmin: true },
+            { name: 'Logout', to: '/logout', isAdmin: false }
         ];
-        const LinksComponent = ({ links }: { links: Link[] }) => {
-            return (
-                <React.Fragment>
-                    {
-                        links && links.map((link: Link) => {
-                            return <li key={link.name}><NavLink activeClassName="active" to={link.to} {...this.props}>{link.name}</NavLink></li>;
-                        })
-                    }
-                </React.Fragment>
-            );
-        };
+
         return (
             <React.Fragment>
                 <Header />
                 <Router>
-                    <div>
-                        <nav className="navbar navbar-default">
-                            <div className="container-fluid">
-                                <ul className="nav navbar-nav">
-                                    {this.state.isAuthenticated &&
-                                        <>
-                                            <li>
-                                                <NavLink activeClassName="active" to="/" exact={true}>Dashboard</NavLink>
-                                            </li>
-                                            <LinksComponent links={menuLinks} />
-                                        </>
-                                    }
-                                    {!this.state.isAuthenticated &&
-                                        <li>
-                                            <NavLink activeClassName="active" to="/login">Login</NavLink>
-                                        </li>}
-
-                                </ul>
-                            </div>
-                        </nav>
+                    <React.Fragment>
+                        <LinksComponent links={menuLinks} isAuthenticated={this.props.isAuthenticated} isAdmin={this.props.isAdmin} />
                         <PrivateRoute path="/" exact={true} component={Dashboard} />
-                        <Route path="/login" component={() => <LoginContainer onAuthenticated={() => this.onAuthenticated()} />} />
-                        <Route path="/logout" component={() => <LogOutContainer onLogOut={() => this.onLogOut()} />} />
-                        <PrivateRoute path="/project-batch" component={ProjectBatchComponent} />
-                        <PrivateRoute path="/associate-detail" component={AssociateDetail} />
-                        <PrivateRoute path="/kt-detail" component={KtDetail} />
-                    </div>
+                        <Route path="/login" component={() => <LoginContainer />} />
+                        <Route path="/logout" component={() => <LogoutContainer onLogout={() => this.props.onLogout()} />} />
+                        <PrivateRoute path="/report" component={ReportContainer} />
+                        <PrivateRoute path="/configuration" component={ConfigurationContainer} />
+                    </React.Fragment>
                 </Router>
                 <Footer />
             </React.Fragment>);
     }
 }
+
+const mapStateToProps = (state: any) => {
+    const userToken = SessionManagement.GetToken();
+    if (userToken) {
+        return {
+            isAuthenticated: true,
+            isAdmin: userToken.isAdmin
+        };
+    }
+    return {
+        isAuthenticated: state.app.isAuthenticated,
+        isAdmin: state.login.isAdmin
+    };
+
+};
+
+const mapDispatchToProps = (dispatch: any) =>
+    bindActionCreators(
+        {
+            onLogout
+        },
+        dispatch
+    );
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);

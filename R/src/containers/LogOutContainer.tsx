@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
+import { ILogoutProps } from '../models/Logout';
+import SessionManagement from '../utils/SessionManagement';
 
-interface ILogOutProps {
-    onLogOut(): void;
-}
-
-class LogOutContainer extends React.Component<ILogOutProps, {}> {
-    public constructor(props: ILogOutProps) {
+class LogoutContainer extends React.Component<ILogoutProps, {}> {
+    public constructor(props: ILogoutProps) {
         super(props);
-        this.handleOnLogOut();
+        this.handleOnLogout();
     }
 
-    private handleOnLogOut = (): void => {
-        sessionStorage.removeItem('AssociateId');
-        this.props.onLogOut();
+    private handleOnLogout = (): void => {
+        SessionManagement.RemoveToken();
+        this.props.onLogout();
     };
 
     public render() {
@@ -21,4 +19,4 @@ class LogOutContainer extends React.Component<ILogOutProps, {}> {
     }
 }
 
-export default LogOutContainer;
+export default LogoutContainer;

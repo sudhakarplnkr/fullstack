@@ -1,11 +1,14 @@
-import { BASE_URL } from './Environment';
 import * as $ from 'jquery';
+import { BASE_URL } from './Environment';
+import SessionManagement from './SessionManagement';
 
-const authHeaders = { 'Authorization':  sessionStorage.getItem('AssociateId')};
 const http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> } = {
     fetch: (url: RequestInfo, init?: RequestInit): Promise<Response> => {
         const headers = init ? init.headers : {};
-        $.extend(headers, authHeaders);
+        const token = SessionManagement.GetToken();
+        if (token) {
+            $.extend(headers, { 'Authorization': `Bearer ${token.AssociateId}` });
+        }
         return fetch(url, init);
     }
 };

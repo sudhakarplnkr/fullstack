@@ -1,5 +1,5 @@
-import { Dashboard } from '../ApiClient';
 import service from '../services/Service';
+import { Dashboard } from '../typings/ApiClient';
 
 export const DASHBOARD_FAILED_RESPONCE = 'dashboard/UPDATE_DASHBOARD';
 export const UPDATE_DASHBOARD = 'dashboard/UPDATE_DASHBOARD';

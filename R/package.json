@@ -3,35 +3,45 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@types/chart.js": "^2.7.40",
+    "@types/enzyme": "^3.1.15",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
+    "@types/file-saver": "^2.0.0",
+    "@types/jest": "^23.3.9",
     "@types/jquery": "^3.3.22",
     "@types/jss": "^9.5.7",
-    "@types/node": "^10.12.21",
+    "@types/moment": "^2.13.0",
     "@types/react": "^16.4.18",
+    "@types/react-datepicker": "^2.0.2",
     "@types/react-dom": "^16.0.9",
     "@types/react-fa": "^4.1.5",
     "@types/react-redux": "^6.0.9",
+    "@types/react-redux-toastr": "^7.4.0",
     "@types/react-router-dom": "^4.3.1",
     "bootstrap": "^3.3.4",
-    "chart.js": "^2.7.3",
     "connected-react-router": "^4.5.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "file-saver": "^2.0.0",
     "indefinite-observable": "^1.0.1",
+    "jest": "^23.6.0",
     "jquery": "^3.3.1",
     "jslint": "^0.12.0",
     "moment": "^2.22.2",
+    "npm": "^6.5.0",
     "popper.js": "^1.14.4",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
-    "react-chartjs-2": "^2.7.4",
+    "react-datepicker": "^2.0.0",
     "react-dom": "^16.6.0",
     "react-fa": "^5.0.0",
     "react-image": "^1.5.1",
+    "react-modal": "^3.6.1",
     "react-redux": "^5.1.0",
+    "react-redux-toastr": "^7.4.4",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.3.3",
-    "salad-ui": "^1.1.55",
     "salad-ui.chart": "^1.1.55",
     "typescript": "^3.1.6"
   },
@@ -40,6 +50,28 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "collectCoverage": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "setupTestFrameworkScriptFile": "./src/setupTests.ts",
+    "testMatch": [
+      "**/*.spec.tsx"
+    ]
   },
   "devDependencies": {
     "react-scripts-ts": "latest"

@@ -1,9 +1,11 @@
-import { ON_LOGIN, ON_LOGOFF, CHANGE_ASSOCIATE_ID } from '../actions/LoginActions';
-import { ILoginState } from '../containers/LoginContainer';
+import { AP_ONLOGOUT } from '../actions/AppActions';
+import { CHANGE_ASSOCIATE_ID, ON_LOGIN } from '../actions/LoginActions';
+import { ILoginState } from '../models/Login';
 
 const initialState: ILoginState = {
     associateId: undefined,
-    isAuthenticated: false
+    isAuthenticated: false,
+    isAdmin: false
 };
 
 const LoginReducer = (state = initialState, action: any) => {
@@ -11,18 +13,17 @@ const LoginReducer = (state = initialState, action: any) => {
         case ON_LOGIN:
             return {
                 ...state,
-                associateId: action.payload,
+                associateId: action.payload.associateId,
+                isAdmin: action.payload.isAdmin,
                 isAuthenticated: true
-            };
-        case ON_LOGOFF:
+            };       
+            case AP_ONLOGOUT:
             return {
-                ...state,
-                associateId: undefined,
-                isAuthenticated: false
-            };
+                ...initialState                
+            };    
         case CHANGE_ASSOCIATE_ID:
             return {
-                ...state,
+                ...initialState,
                 associateId: action.payload
             };
         default:

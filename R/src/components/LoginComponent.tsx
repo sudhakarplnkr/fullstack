@@ -1,16 +1,11 @@
 import * as React from 'react';
-
-interface ILoginProps {
-    associateId?: number;
-    onLogin(): void;
-    onChange(event: React.ChangeEvent<HTMLInputElement>): void;
-}
+import { ILoginProps } from '../models/Login';
 
 const LoginComponent = (login: ILoginProps) => {
     return (
         <div className="col-md-2 col-md-offset-3">
             <h2>Login</h2>
-            <form name="form" onSubmit={() => login.onLogin()}>
+            <form name="form" onSubmit={(event: React.FormEvent<HTMLFormElement>) => { event.preventDefault(); login.onLogin(); }}>
                 <div>
                     <label htmlFor="username">Associate Id</label>
                     <input
@@ -22,7 +17,7 @@ const LoginComponent = (login: ILoginProps) => {
                 </div>
                 <br />
                 <div className="form-group">
-                    <button disabled={!login.associateId} className="btn btn-primary">Login</button>
+                    <button type="submit" disabled={!login.associateId} className="btn btn-primary">Login</button>
                 </div>
             </form>
         </div>);

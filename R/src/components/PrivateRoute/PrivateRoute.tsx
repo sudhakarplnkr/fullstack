@@ -1,5 +1,6 @@
-import { RouteComponentProps, RouteProps, Route, Redirect } from 'react-router';
 import * as React from 'react';
+import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router';
+import SessionManagement from '../../utils/SessionManagement';
 
 interface PrivateRouteProps extends RouteProps {
     component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
@@ -10,7 +11,7 @@ export class PrivateRoute extends Route<PrivateRouteProps> {
     public render() {
         const { component: Component, ...rest }: PrivateRouteProps = this.props;
         const renderComponent: RenderComponent = (props) => (
-            sessionStorage.getItem('AssociateId')
+            SessionManagement.GetToken()
                 ? <Component {...props} />
                 : <Redirect to="/login" />
         );

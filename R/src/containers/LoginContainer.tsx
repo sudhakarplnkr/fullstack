@@ -1,25 +1,13 @@
 import * as React from 'react';
-import LoginComponent from '../components/LoginComponent';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { onLogin, onAssociateIdChange } from '../actions/LoginActions';
+import { onAssociateIdChange, onLogin } from '../actions/LoginActions';
+import LoginComponent from '../components/LoginComponent';
+import { ILoginContainerProps, ILoginState } from '../models/Login';
 
-export interface ILoginState {
-    associateId?: number;
-    isAuthenticated: boolean;
-}
-
-interface ILoginProps {
-    associateId?: number;
-    onLogin(associateId?: number): void;
-    onAuthenticated(): void;
-    onAssociateIdChange(associateId?: number): void;
-    isAuthenticated: boolean;
-}
-
-class LoginContainer extends React.Component<ILoginProps, ILoginState> {
-    public constructor(props: ILoginProps) {
+class LoginContainer extends React.Component<ILoginContainerProps, ILoginState> {
+    public constructor(props: ILoginContainerProps) {
         super(props);
     }
 
@@ -30,22 +18,26 @@ class LoginContainer extends React.Component<ILoginProps, ILoginState> {
     };
 
     private handleOnLogin = (): void => {
-        this.props.onLogin(this.props.associateId);
-        this.props.onAuthenticated();
+        this.props.onLogin(this.props.associateId);        
     };
 
     public render() {
-        if (this.props.isAuthenticated) {
+        if (this.props.isAuthenticated && this.props.isAdmin) {
             return (<Redirect to="/" />);
+        }
+        
+        if (this.props.isAuthenticated) {
+            return (<Redirect to="/kt-detail" />);
         }
         return (<LoginComponent associateId={this.props.associateId} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.handleOnChange(event)} onLogin={() => this.handleOnLogin()} />);
     }
 }
 
-const mapStateToProps = (login: any) => {
+const mapStateToProps = ({ login: login }: any) => {
     return {
-        associateId: login.LoginReducer.associateId,
-        isAuthenticated: sessionStorage.getItem('AssociateId') ? true : false
+        associateId: login.associateId,
+        isAuthenticated: login.isAuthenticated,
+        isAdmin: login.isAdmin
     };
 };
 
