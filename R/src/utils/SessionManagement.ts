@@ -1,6 +1,7 @@
 interface IUserToken {
     AssociateId: string;
     isAdmin: boolean;
+    token: string;
 }
 class SessionManagement {
 

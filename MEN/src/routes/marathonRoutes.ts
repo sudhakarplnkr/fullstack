@@ -14,11 +14,21 @@ export class Routes {
         this.accountController = new AccountController();
     }
 
-    public routes(anonymous: Application): void {
-        const ProtectedRoutes = express.Router();
+    private allowCors(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    }
 
-        anonymous.use('/api', ProtectedRoutes);
-        ProtectedRoutes.use((req: Request, res: Response, next: NextFunction) => {
+    public routes(application: Application): void {
+        const protectedRoutes = express.Router();
+
+        application.use(this.allowCors);
+        protectedRoutes.use(this.allowCors);
+
+        application.use('/api', application._router);
+
+        protectedRoutes.use((req: Request, res: Response, next: NextFunction) => {
             const token = req.headers['access-token'].toString();
             if (!token) {
                 res.send({
@@ -26,7 +36,7 @@ export class Routes {
                 });
                 return;
             }
-            jwt.verify(token, anonymous.get('Secret'), (err: any) => {
+            jwt.verify(token, application.get('Secret'), (err: any) => {
                 if (err) {
                     return res.json({ message: 'invalid token' });
                 }
@@ -34,15 +44,19 @@ export class Routes {
             });
         });
 
-        anonymous.route('/')
+        application.route('/')
             .get((req: Request, res: Response) => {
                 res.status(200).send({
                     message: 'GET request successfulll!!!!'
                 });
             });
 
+        // authentication
+        application.route('/authenticate')
+            .post(this.accountController.login);
+
         // Contact 
-        ProtectedRoutes.route('/contact')
+        protectedRoutes.route('/contact')
             .get((req: Request, res: Response, next: NextFunction) => {
                 // middleware
                 console.log(`Request from: ${req.originalUrl}`);
@@ -54,13 +68,10 @@ export class Routes {
             .post(this.contactController.addNewContact);
 
         // Contact detail
-        ProtectedRoutes.route('/contact/:contactId')
+        protectedRoutes.route('/contact/:contactId')
             // get specific contact
             .get(this.contactController.getContactWithID)
             .put(this.contactController.updateContact)
             .delete(this.contactController.deleteContact);
-
-        anonymous.route('/authenticate')
-            .post(this.accountController.login);
     }
 }

@@ -1,3 +1,5 @@
 node_modules
 R/package-lock.json
 MEN/package-lock.json
+build
+*.snap

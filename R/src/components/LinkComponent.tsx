@@ -13,7 +13,7 @@ const LinksComponent = ({ links, isAuthenticated, isAdmin }: { links: Link[], is
                     {
                         links && links.filter(u => !u.isAdmin || isAdmin).map((link: Link) => {
                             return (
-                                <li key={link.name}><NavLink activeClassName="active" to={link.to} {...this.props} exact={true}>{link.name}</NavLink></li>
+                                <li key={link.name}><NavLink activeClassName="active" to={link.to} exact={true}>{link.name}</NavLink></li>
                             );
                         })
                     }

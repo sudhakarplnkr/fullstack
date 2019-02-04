@@ -1,5 +1,6 @@
 export interface ILoginProps {
     associateId?: number;
+    adminLogin?: boolean;
     onLogin(): void;
     onChange(event: React.ChangeEvent<HTMLInputElement>): void;
 }
